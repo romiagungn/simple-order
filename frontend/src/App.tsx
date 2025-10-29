@@ -4,6 +4,7 @@ import ProductPage from './pages/product.pages';
 import OrderHistoryPage from './pages/order.pages';
 import LoginPage from './pages/login.pages';
 import React from 'react';
+import RegisterPage from './pages/register.page.tsx';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
    const { isAuthenticated, isLoading } = useAuth();
@@ -24,6 +25,7 @@ function App() {
       <Router>
          <Routes>
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
 
             <Route
                path="/"
