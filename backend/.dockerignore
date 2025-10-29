@@ -1,0 +1,24 @@
+# --- STAGE 1: BUILD ---
+# Tahap ini meng-compile TypeScript menjadi JavaScript
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Salin file package, install SEMUA dependensi (termasuk dev)
+COPY package*.json ./
+RUN npm install
+
+# Salin sisa source code
+COPY . .
+
+# Jalankan script 'build' (tsc)
+RUN npm run build
+
+# Salin folder 'dist' (hasil build) dari stage 'builder'
+COPY --from=builder /app/dist ./dist
+
+# Ekspos port yang digunakan aplikasi
+EXPOSE 5001
+
+# Perintah untuk menjalankan aplikasi
+CMD ["npm", "start"]

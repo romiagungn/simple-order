@@ -1,0 +1,56 @@
+version: '3.8'
+
+services:
+  # 1. Layanan Database (PostgreSQL)
+  db:
+    image: postgres:15-alpine
+    container_name: simple_orders_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: simple_orders_db
+    ports:
+      - "5432:5432"
+    volumes:
+#      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d simple_orders_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # 2. Layanan Backend (API Express)
+  backend:
+    container_name: simple_orders_backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "5001:5001"
+    environment:
+      DATABASE_URL: "postgresql://postgres:secret@db:5432/simple_orders_db?schema=public"
+      PORT: 5001
+      JWT_SECRET: "ganti_dengan_kunci_rahasia_anda_yang_sangat_aman"
+      JWT_EXPIRES_IN: "1d"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  # 3. Layanan Frontend (React + 'serve')
+  frontend:
+    container_name: simple_orders_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      # Port 8080 di host terhubung ke 3000 di kontainer
+      - "8080:3000"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
