@@ -19,11 +19,15 @@ type IAuthSuccessData = {
 };
 
 export const loginUser = async (payload: ILoginPayload) => {
+   console.log("Login payload:", payload);
    const response = await api.post<IApiResponse<IAuthSuccessData>>('/auth/login', payload);
+   console.log("Login response:", response);
    return response.data;
 };
 
 export const registerUser = async (payload: IRegisterPayload) => {
+   console.log("Register payload:", payload);
    const response = await api.post<IApiResponse<IAuthSuccessData>>('/auth/register', payload);
+   console.log("Register response:", response);
    return response.data;
 };

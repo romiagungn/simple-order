@@ -22,11 +22,15 @@ export interface IAddProductPayload {
 }
 
 export const getProducts = async () => {
+   console.log('Get products');
    const response = await api.get<IApiResponse<IProduct[]>>('/products');
+   console.log('Get products response:', response);
    return response.data.responseData;
 };
 
 export const addProduct = async (payload: IAddProductPayload) => {
+   console.log('Add product payload:', payload);
    const response = await api.post<IApiResponse<IProduct>>('/products', payload);
+   console.log('Add product response:', response);
    return response.data;
 };
