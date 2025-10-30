@@ -16,12 +16,14 @@ export const getAllProducts = async () => {
     ORDER BY created_at DESC
   `;
    const result = await pool.query(queryText);
+   console.log('service get all product', result.rows);
    return result.rows;
 };
 
 export const getProductsByIds = async (productIds: string[], client: DBClient = pool) => {
    const query = 'SELECT * FROM products WHERE id = ANY($1::uuid[]) FOR UPDATE';
    const result = await client.query(query, [productIds]);
+    console.log('service get product by id', result.rows);
    return result.rows;
 };
 
@@ -33,5 +35,6 @@ export const createProduct = async (data: NewProductData) => {
     RETURNING *
   `;
    const result = await pool.query(query, [name, price, stock]);
+    console.log('service create product', result.rows);
    return result.rows[0];
 };

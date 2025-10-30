@@ -39,6 +39,8 @@ export const login = async (req: Request, res: Response) => {
             user: { id: user.id, email: user.email },
         };
 
+        console.log("Login Response:", responseData);
+
         return sendApiResponse(res, 200, ApiResponseCode.SUCCESS, 'Login berhasil.', responseData);
 
     } catch (error) {
@@ -49,6 +51,7 @@ export const login = async (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
     const { email, password } = req.body;
+    console.log("Register payload:", req.body);
 
     const jwtSecret: Secret | undefined = process.env.JWT_SECRET;
     if (!jwtSecret) {
@@ -77,6 +80,7 @@ export const register = async (req: Request, res: Response) => {
             token,
             user: { id: newUser.id, email: newUser.email },
         };
+        console.log("Register Response:", responseData);
 
         return sendApiResponse(res, 201, ApiResponseCode.CREATED, 'Registrasi berhasil.', responseData);
 

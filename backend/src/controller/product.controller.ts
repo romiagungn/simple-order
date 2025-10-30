@@ -5,6 +5,7 @@ import * as productService from '../services/product.service';
 export const getProducts = async (req: Request, res: Response) => {
    try {
       const products = await productService.getAllProducts();
+       console.log("Product Response:", products);
 
       return sendApiResponse(
          res,
