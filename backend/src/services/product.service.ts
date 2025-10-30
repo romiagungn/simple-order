@@ -31,13 +31,13 @@ export const getProductsByIds = async (productIds: string[], client: DBClient = 
 
 export const createProduct = async (data: NewProductData) => {
    const { name, price, stock } = data;
-   console.log('service create product', data);
+   console.log('service create product payload', data);
    const query = `
     INSERT INTO products (name, price, stock) 
     VALUES ($1, $2, $3) 
     RETURNING *
   `;
    const result = await pool.query(query, [name, price, stock]);
-    console.log('service create product', result.rows);
+    console.log('service create product response', result.rows);
    return result.rows[0];
 };

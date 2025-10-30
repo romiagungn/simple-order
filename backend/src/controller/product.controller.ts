@@ -28,6 +28,7 @@ export const getProducts = async (req: Request, res: Response) => {
 export const createProduct = async (req: Request, res: Response) => {
    try {
       const { name, price, stock } = req.body;
+      console.log("Create product payload:", req.body);
 
       const newProductData: productService.NewProductData = {
          name,
@@ -35,7 +36,10 @@ export const createProduct = async (req: Request, res: Response) => {
          stock: parseInt(stock, 10),
       };
 
+      console.log("Create product payload:", newProductData);
+
       const product = await productService.createProduct(newProductData);
+      console.log("Create product Response:", product);
 
       return sendApiResponse(
          res,
