@@ -10,6 +10,7 @@ export type NewProductData = {
 };
 
 export const getAllProducts = async () => {
+   console.log('service get all product');
    const queryText = `
     SELECT * FROM products 
     WHERE stock > 0 
@@ -21,6 +22,7 @@ export const getAllProducts = async () => {
 };
 
 export const getProductsByIds = async (productIds: string[], client: DBClient = pool) => {
+   console.log('service get product by id', productIds);
    const query = 'SELECT * FROM products WHERE id = ANY($1::uuid[]) FOR UPDATE';
    const result = await client.query(query, [productIds]);
     console.log('service get product by id', result.rows);
@@ -29,6 +31,7 @@ export const getProductsByIds = async (productIds: string[], client: DBClient = 
 
 export const createProduct = async (data: NewProductData) => {
    const { name, price, stock } = data;
+   console.log('service create product', data);
    const query = `
     INSERT INTO products (name, price, stock) 
     VALUES ($1, $2, $3) 
