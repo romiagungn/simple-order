@@ -45,6 +45,9 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+      args:
+        # Kita inject URL yang bisa diakses dari BROWSER USER
+        VITE_API_BASE_URL: http://localhost:5001/api
     restart: always
     ports:
       # Port 8080 di host terhubung ke 3000 di kontainer
